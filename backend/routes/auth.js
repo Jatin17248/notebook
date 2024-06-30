@@ -6,6 +6,8 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const JWT_Secret = process.env.JWT_Secret;
 const jwt = require("jsonwebtoken");
+const fetchuser = require("../middleware/fetchuser");
+
 router.post(
   "/createuser",
   [
@@ -45,5 +47,62 @@ router.post(
     }
   }
 );
+
+
+router.post(
+  "/login",
+  [
+    body("email", "Enter A Valid Email!").isEmail(),
+    body("password", "Enter A Valid Password!").isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const {email, password} = req.body;
+      let user = await User.findOne({"email": email});
+      if (!user) {
+        return res
+          .status(500)
+          .json({ error: "Wrong Email! User With This E-Mail Doesn't Exists!" });
+      }
+      const passwordCompare = await bcrypt.compare(password, user.password);
+      
+      if(!passwordCompare){
+        return res
+          .status(500)
+          .json({ error: "Wrong Password! Enter Valid Credientials!" });
+      }
+      const data = {
+        user:{
+          id: user.id
+        }
+      }
+      const jwttoken = jwt.sign(data, JWT_Secret);
+      res.json({authToken: jwttoken});
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({error: "Some Error Happened", errmessage: error.message});
+    }
+  }
+);
+
+
+router.post(
+  "/getuser", fetchuser, 
+  async (req, res) => {
+    try {
+   userid = req.user.id;
+   const user = await User.findById(userid).select("-password");
+   res.send(user);
+    } catch (error) {
+   
+    }
+  }
+);
+
+
 
 module.exports = router;
