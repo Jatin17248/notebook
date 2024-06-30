@@ -1,8 +1,11 @@
 const express = require("express");
+require('dotenv').config();
 const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const JWT_Secret = process.env.REACT_APP_JWT_Secret;
+const jwt = require("jsonwebtoken");
 router.post(
   "/createuser",
   [
@@ -29,10 +32,16 @@ router.post(
         password: secPwd,
         email: req.body.email,
       });
-      res.json({ user });
+      const data = {
+        user:{
+          id: user.id
+        }
+      }
+      const jwttoken = jwt.sign(data, JWT_Secret);
+      res.json({authToken: jwttoken});
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({error: "Some Error Happened"});
+      res.status(500).json({error: "Some Error Happened", errmessage: error.message});
     }
   }
 );
