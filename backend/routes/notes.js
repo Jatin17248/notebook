@@ -15,7 +15,7 @@ router.get("/fetchallnotes", fetchuser, async (req, res) => {
 });
 
 // Route2: to create a new note using header auth-token
-router.get(
+router.post(
   "/addnote",
   fetchuser,
   [
@@ -38,6 +38,62 @@ router.get(
       });
       const savedNote = await note.save();
       res.json(savedNote);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+// Route3: to edit a note an existing note using header auth-token
+router.put(
+  "/updatenote/:id",
+  fetchuser,
+  async (req, res) => {
+    try {
+      const{title, description, tag} = req.body;
+      //create a newNote object
+      const newNote = {};
+      if(title){newNote.title = title}
+      if(description){newNote.description = description}
+      if(tag){newNote.tag = tag}
+      //find a note to be updatedand update it 
+       
+      let note = await Notes.findById(req.params.id);
+      if(!note){res.status(404).send("Note Not FOund")}
+
+      if(note.user.toString() !== req.user.id){
+        return res.status(401).send("Your Are Accessing a unauthorized note");
+      }
+
+      note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true});
+      res.json(note);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+// Route4: to Delete a note an existing note using header auth-token
+router.put(
+  "/deletenote/:id",
+  fetchuser,
+  async (req, res) => {
+    try {
+      const{title, description, tag} = req.body;
+      
+      //find a note to be Deleted and Delete it 
+       
+      let note = await Notes.findById(req.params.id);
+      if(!note){res.status(404).send("Note Not FOund")}
+
+      if(note.user.toString() !== req.user.id){
+        return res.status(401).send("Your Are Accessing a unauthorized note");
+      }
+
+      note = await Notes.findByIdAndDelete(req.params.id);
+      res.json({Success: "The Note Has Been Deleted", note: note});
     } catch (error) {
       console.log(error.message);
       res.status(500).send("Internal Server Error");
