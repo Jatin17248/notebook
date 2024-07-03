@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function home() {
+
+export default function Home() {
+
   return (
     <div>
-      <p>This is home section</p>
+      <p>This is home section </p>
     </div>
   )
 }
