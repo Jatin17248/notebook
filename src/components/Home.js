@@ -1,11 +1,15 @@
 import React from 'react';
+import Notes from './Notes';
+import AddNote from './AddNote';
 
 
 export default function Home() {
 
   return (
     <div>
-      <p>This is home section </p>
-    </div>
+<AddNote/>
+
+<Notes/>
+</div>
   )
 }
