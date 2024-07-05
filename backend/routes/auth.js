@@ -1,13 +1,13 @@
 const express = require("express");
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables from .env file
 const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
-const JWT_Secret = process.env.JWT_Secret;
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
-
+let jwtSecret = "JatinGuptaIsAGoodBo";
+// process.env.JWT_Secret ;
 router.post(
   "/createuser",
   [
@@ -39,7 +39,8 @@ router.post(
           id: user.id
         }
       }
-      const jwttoken = jwt.sign(data, JWT_Secret);
+
+      const jwttoken = jwt.sign(data, jwtSecret);
       res.json({authToken: jwttoken});
     } catch (error) {
       console.error(error.message);
@@ -80,7 +81,7 @@ router.post(
           id: user.id
         }
       }
-      const jwttoken = jwt.sign(data, JWT_Secret);
+      const jwttoken = jwt.sign(data, jwtSecret);
       res.json({authToken: jwttoken});
     } catch (error) {
       console.error(error.message);

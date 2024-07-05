@@ -19,7 +19,10 @@ const noteSchema = new Schema({
     tag:{
         type: String,
         default: "general"
-
+    },
+    date:{
+        type: Date,
+        default: Date.now 
     }
   });
 
