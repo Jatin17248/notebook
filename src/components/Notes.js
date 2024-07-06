@@ -10,7 +10,7 @@ export default function Notes() {
     allNotes();
     // eslint-disable-next-line
   }, []);
-  const [note, setNote] = useState({title: "", description: "", tag:"default"});
+  const [note, setNote] = useState({etitle: "", edescription: "", etag:"default"});
   const handleChange = (e) =>{
     setNote({...note, [e.target.name]: e.target.value});
 }
@@ -101,6 +101,7 @@ const handleClick = async() =>{
            
             </div>
             <div className="modal-footer">
+            <p className='text-danger'>{(note.etitle.length < 5 || note.edescription.length < 5 ) && "Title & descritpion should have minimum length of 5 or more characters."}</p>
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -108,16 +109,18 @@ const handleClick = async() =>{
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>
+              <button disabled={note.etitle.length < 5 || note.edescription.length < 5 } type="button" className="btn btn-primary" onClick={handleClick}>
                 Update Note
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="mb-3">
+      <div className="container mb-3">
         <h2>Your Notes</h2>
-        <div className="row">
+        <div className="container row"><h2>
+          {notes.length===0 && "No Notes To Display"}
+          </h2>
           {notes.map((not) => {
             return <NoteItem key={not._id} note={not} updateNote={updateNote}/>;
           })}

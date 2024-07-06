@@ -4,7 +4,7 @@ const host = "http://localhost:4000";
 const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY4N2M4NWUxNjBiMmRmNDMzZGE1MmE2In0sImlhdCI6MTcyMDE3NTAwMH0.tuPYMX-H3AiDufxoy2_anxuFWyrdUYgW5rgwqcLUPaw";
 const NoteState = (props) =>{
   
-    const notesInitial = ["",""];
+    const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
 
     const allNotes = async() => {
