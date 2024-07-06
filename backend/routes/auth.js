@@ -25,7 +25,7 @@ router.post(
       if (user) {
         return res
           .status(500)
-          .json({ error: "Sorry, User With This E-Mail Already Exists!" });
+          .json({success: false, error: "Sorry, User With This E-Mail Already Exists!"});
       }
       const salt = await bcrypt.genSalt(10);
       const secPwd = await bcrypt.hash(req.body.password, salt);
@@ -41,10 +41,10 @@ router.post(
       }
 
       const jwttoken = jwt.sign(data, jwtSecret);
-      res.json({authToken: jwttoken});
+      res.json({ success: true, authToken: jwttoken});
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({error: "Some Error Happened", errmessage: error.message});
+      res.status(500).json({ success: false, error: "Some Error Happened", errmessage: error.message});
     }
   }
 );
@@ -67,14 +67,14 @@ router.post(
       if (!user) {
         return res
           .status(500)
-          .json({ error: "Wrong Email! User With This E-Mail Doesn't Exists!" });
+          .json({  success: false, error: "Wrong Email! User With This E-Mail Doesn't Exists!" });
       }
       const passwordCompare = await bcrypt.compare(password, user.password);
       
       if(!passwordCompare){
         return res
           .status(500)
-          .json({ error: "Wrong Password! Enter Valid Credientials!" });
+          .json({  success: false, error: "Wrong Password! Enter Valid Credientials!" });
       }
       const data = {
         user:{
@@ -82,10 +82,10 @@ router.post(
         }
       }
       const jwttoken = jwt.sign(data, jwtSecret);
-      res.json({authToken: jwttoken});
+      res.json({ success: true, authToken: jwttoken});
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({error: "Some Error Happened", errmessage: error.message});
+      res.status(500).json({ success: false, error: "Some Error Happened", errmessage: error.message});
     }
   }
 );
