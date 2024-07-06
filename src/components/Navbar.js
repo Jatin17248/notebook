@@ -47,6 +47,12 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+        <div className="d-flex" style={{whiteSpace: "nowrap"}}>
+        
+        <Link to="/login" className="btn btn-primary mx-1 flex-grow-2 ">Login</Link>
+        <Link to="/signup" className="btn btn-primary mx-1 me-2">Sign Up</Link>
+        
+      </div>
       </nav>
     </div>
   );
