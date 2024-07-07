@@ -1,10 +1,19 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import noteContext from "../context/notes/noteContext";
 export default function Navbar() {
   let location = useLocation();
+  const context = useContext(noteContext);
+  const {setNotes} = context;
+  let navigate = useNavigate();
+  const handleLogout = () => {
+    setNotes([]);
+    localStorage.removeItem("token");
+    navigate('/login');
+  };
   return (
-    <div>
+    <div className>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
@@ -47,12 +56,27 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
-        <div className="d-flex" style={{whiteSpace: "nowrap"}}>
-        
-        <Link to="/login" className="btn btn-primary mx-1 flex-grow-2 ">Login</Link>
-        <Link to="/signup" className="btn btn-primary mx-1 me-2">Sign Up</Link>
-        
-      </div>
+        <div className="d-flex" style={{ whiteSpace: "nowrap" }}>
+          {
+            
+              localStorage.getItem('token')?(
+              <button
+                onClick={handleLogout}
+                className="btn btn-primary mx-1 flex-grow-2 "
+              >
+                Log Out
+              </button>
+              ):(
+              <div><Link to="/login" className="btn btn-primary mx-1 flex-grow-2 ">
+                Login
+              </Link>
+              <Link to="/signup" className="btn btn-primary mx-1 me-2">
+                Sign Up
+              </Link></div>
+              )
+            
+          }
+        </div>
       </nav>
     </div>
   );

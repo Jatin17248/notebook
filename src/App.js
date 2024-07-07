@@ -7,14 +7,27 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NoteState from './context/notes/NoteState';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import { useState } from 'react';
 
 function App() {
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) =>{
+    setAlert({
+      message, type
+    })
+    console.log(alert);
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+  }
+  
+
   return (
     <>
     <NoteState>
       <BrowserRouter>
         <Navbar/>
-        <Alert/>
+        <Alert alert={alert} />
         <div className='container'>
         <Routes>
           <Route
@@ -26,18 +39,18 @@ function App() {
             exact
             path="/"
             element={
-              <Home/>}/>
+              <Home showAlert={showAlert} />}/>
           <Route
             exact
             path="/login"
             element={
-              <Login/>
+              <Login showAlert={showAlert} />
               }/>
               <Route
             exact
             path="/signup"
             element={
-              <Signup/>
+              <Signup showAlert={showAlert} />
               }/>
         </Routes>
         </div>

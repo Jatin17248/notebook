@@ -1,13 +1,14 @@
 import NoteContext from "./noteContext";
 import { useState } from "react";
 const host = "http://localhost:4000";
-const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY4N2M4NWUxNjBiMmRmNDMzZGE1MmE2In0sImlhdCI6MTcyMDE3NTAwMH0.tuPYMX-H3AiDufxoy2_anxuFWyrdUYgW5rgwqcLUPaw";
+const authToken = localStorage.getItem('token');
 const NoteState = (props) =>{
   
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
 
     const allNotes = async() => {
+      setNotes(notesInitial);
       const url = `${host}/api/notes/fetchallnotes`;
       const response = await fetch(url, {
         method: "GET",
@@ -76,7 +77,7 @@ const NoteState = (props) =>{
         
     
 return (
-    <NoteContext.Provider value={{notes, addNote, deleteNote, editNote, allNotes}}>
+    <NoteContext.Provider value={{notes, addNote, deleteNote, editNote, allNotes, setNotes}}>
         {props.children}
     </NoteContext.Provider>
 )

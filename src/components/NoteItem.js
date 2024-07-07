@@ -17,7 +17,9 @@ const {deleteNote} = context;
     <p className="card-text">{note.tag}</p>
     {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
     <i className="bi bi-pencil-square mx-2" onClick={() => {updateNote(note)}}></i>  
-    <i className="bi bi-trash-fill mx-2" onClick={() => {deleteNote(note._id)}}></i>  
+    <i className="bi bi-trash-fill mx-2" onClick={() => {deleteNote(note._id)
+       props.showAlert("You Deleted A Note", "success");
+    }}></i>  
   </div>
 </div>
     </div>
