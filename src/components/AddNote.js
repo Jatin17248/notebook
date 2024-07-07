@@ -14,7 +14,7 @@ export default function AddNote(props) {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
   const handleClick = () => {
-    console.log(note);
+    
     addNote(note.title, note.description, note.tag);
     setNote({ title: "", description: "", tag: "default" });
     props.showAlert("You SuccessFully Added a Note", "success");
