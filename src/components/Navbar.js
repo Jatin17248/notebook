@@ -13,7 +13,7 @@ export default function Navbar() {
     navigate('/login');
   };
   return (
-    <div className>
+    <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
@@ -35,7 +35,7 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
+                    ((location.pathname==="/")? "active": "").toString()
                   }`}
                   aria-current="page"
                   to="/"
@@ -46,7 +46,7 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
-                    location.pathname === "/about" ? "active" : ""
+                     ((location.pathname==="/about")? "active": "").toString()
                   }`}
                   to="/about"
                 >
@@ -59,13 +59,17 @@ export default function Navbar() {
         <div className="d-flex" style={{ whiteSpace: "nowrap" }}>
           {
             
-              localStorage.getItem('token')?(
+              localStorage.getItem('token')?(<>
+              
+              <Link to="/user" className="btn btn-primary mx-1 flex-grow-2 ">
+              <i className="bi bi-person-circle"></i>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="btn btn-primary mx-1 flex-grow-2 "
               >
                 Log Out
-              </button>
+              </button></>
               ):(
               <div><Link to="/login" className="btn btn-primary mx-1 flex-grow-2 ">
                 Login

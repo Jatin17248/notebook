@@ -8,6 +8,7 @@ import NoteState from './context/notes/NoteState';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { useState } from 'react';
+import UserDetails from './components/UserDetails';
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -15,7 +16,7 @@ function App() {
     setAlert({
       message, type
     })
-    console.log(alert);
+    
     setTimeout(() => {
       setAlert(null);
     }, 3000);
@@ -51,6 +52,12 @@ function App() {
             path="/signup"
             element={
               <Signup showAlert={showAlert} />
+              }/>
+              <Route
+            exact
+            path="/user"
+            element={
+              <UserDetails/>
               }/>
         </Routes>
         </div>
